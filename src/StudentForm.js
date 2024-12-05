@@ -303,34 +303,51 @@ useEffect(() => {
 
 // api for city
 
-useEffect(() => {
-  fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
-      axios.post('/endpoint', data, {
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-      body: JSON.stringify({
-          country: "India",
-          state: "Maharashtra"
+const MyComponent = () => {
+  const [cities, setCities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios
+      .post("https://countriesnow.space/api/v0.1/countries/state/cities", {
+        country: "India",
+        state: "Maharashtra",
       })
-  })
-  .then(response => response.json())
-  .then(data => {
-      setLoading(false);
-      if (data.data && data.data.length > 0) {
-          setCities(data.data);
-      } else {
+      .then((response) => {
+        setLoading(false);
+        if (response.data.data && response.data.data.length > 0) {
+          setCities(response.data.data);
+        } else {
           setError("No cities found for Maharashtra");
-      }
-  })
-  .catch(err => {
-      setLoading(false);
-      setError("Can't fetch data");
-      console.error('Error fetching data:', err);
-  });
-}, []);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        setError("Can't fetch data");
+        console.error("Error fetching data:", err);
+      });
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
+    <div>
+      <h1>Cities in Maharashtra:</h1>
+      <ul>
+        {cities.map((city, index) => (
+          <li key={index}>{city}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default MyComponent;
 
 // end api city
 
