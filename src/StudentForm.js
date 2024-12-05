@@ -222,7 +222,7 @@ const StudentForm = () => {
 
 
     try {
-      const response = await axios.post('http://13.201.130.233:5001/api/students', student);
+      const response = await axios.post('http://13.201.130.233/api/students', student);
       console.log('Student Details Saved:', response.data);
      
      
