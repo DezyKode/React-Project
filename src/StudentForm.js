@@ -207,7 +207,9 @@ const StudentForm = () => {
     setIsFormValid(isValid);
   }, [student, isAgeValid]);
 
-
+const axiosInstance = axios.create({
+    baseURL: 'https://13.201.130.233',
+});
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -218,11 +220,10 @@ const StudentForm = () => {
     console.log(student.servicetype);
     
 
-    
 
 
     try {
-      const response = await axios.post('http://13.201.130.233/api/students', student);
+      const response = axios.post('https://13.201.130.233/endpoint', data);
       console.log('Student Details Saved:', response.data);
      
      
@@ -304,10 +305,12 @@ useEffect(() => {
 
 useEffect(() => {
   fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json"
-      },
+      axios.post('/endpoint', data, {
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
       body: JSON.stringify({
           country: "India",
           state: "Maharashtra"
